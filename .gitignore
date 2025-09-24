@@ -1,0 +1,51 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+build/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+logs/
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE or Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# TailwindCSS specific (if you're using PurgeCSS)
+tailwind.config.js
+postcss.config.js
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Supabase specific (if any auto-generated files)
+supabase/.supabase
+.supabase/
+
+# MacOS-specific files
+*.swp
+
+# Misc
+*.bak
+*.tmp
+*.sw?
