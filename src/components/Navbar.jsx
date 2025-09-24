@@ -58,12 +58,12 @@ function Navbar() {
                 {label}
               </Link>
             ))}
-            {/* <Link
+            <Link
               to="/login"
               className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-6 py-2 rounded-lg font-semibold border-2 border-yellow-300 shadow-lg hover:from-yellow-400 hover:to-yellow-500 hover:shadow-yellow-500/25 transform hover:scale-105 transition-all"
             >
               Login
-            </Link> */}
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,13 +93,13 @@ function Navbar() {
                 {label}
               </Link>
             ))}
-            {/* <Link
+            <Link
               to="/login"
               onClick={() => setIsOpen(false)}
               className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-6 py-3 rounded-lg font-semibold border-2 border-yellow-300 mt-2 text-center hover:from-yellow-400 hover:to-yellow-500 hover:scale-105 transform transition-all"
             >
               Login
-            </Link> */}
+            </Link>
           </div>
         </div>
       </div>
