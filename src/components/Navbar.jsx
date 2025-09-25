@@ -21,7 +21,7 @@ function Navbar() {
     'transition duration-300 px-3 py-2 rounded-lg hover:bg-yellow-500/10';
 
   return (
-    <nav className="relative overflow-hidden shadow-md z-50">
+    <nav className="relative sticky top-0 z-50 shadow-md">
       {/* Background Layers */}
       <div className="absolute inset-0 bg-black">
         {/* Subtle Golden Grid */}
@@ -46,9 +46,12 @@ function Navbar() {
       <div className="relative z-10 container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold group text-white hover:text-yellow-300 transition">
-            <span className="text-yellow-400 group-hover:text-yellow-300">Hirpaa</span>
-            <span className="group-hover:text-yellow-200"> Furniture</span>
+          <Link to="/" className="flex items-center space-x-2">
+            <img
+              src="/logo.png" // Make sure the logo.png is located correctly
+              alt="Logo"
+              className="h-12" // Adjust the height based on your logo's size
+            />
           </Link>
 
           {/* Desktop Menu */}

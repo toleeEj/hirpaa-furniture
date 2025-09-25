@@ -54,18 +54,18 @@ function Home() {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url('/images/full-loft-bed-with-stairs-1024x585.jpg')",
+              backgroundImage: "url('/images/Why Your Home Must Have Wooden Furniture_.jpeg')",
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/5 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent"></div>
           </div>
           
           <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-yellow-400">Hirpaa</span> Furniture
+              <span className="text-yellow-400">Hirphaa</span> Furniture
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-200">
               Discover luxury furniture that transforms your space into a masterpiece of comfort and style

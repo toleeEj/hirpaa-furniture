@@ -33,6 +33,28 @@ function About() {
           </p>
         </div>
 
+        {/* Meet the Owners Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-yellow-400 mb-6">Meet the Owners</h2>
+          <p className="text-xl text-gray-300 mb-10">
+            The visionaries behind Hirpaa Furniture. Each owner brings their unique expertise and passion to our company.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {['owner1.webp', 'owner2.webp', 'owner3.jpg', 'owner4.jpg', 'owner5.webp'].map((image, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <img 
+                  src={`/images/${image}`} 
+                  alt={`Owner ${index + 1}`} 
+                  className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
+                />
+                <h3 className="text-xl font-semibold text-yellow-300">Owner {index + 1}</h3>
+                <p className="text-gray-300">Owner {index + 1} is passionate about crafting timeless pieces that blend function and beauty.</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
