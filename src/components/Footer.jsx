@@ -40,11 +40,11 @@ function Footer() {
               {/* Social Links */}
               <div className="mt-6 flex space-x-4">
                 {[
-                  { icon: '📘', label: 'Facebook', url: '#' },
-                  { icon: '📷', label: 'Instagram', url: '#' },
-                  { icon: '🐦', label: 'Twitter', url: '#' },
-                  { icon: '💼', label: 'LinkedIn', url: '#' },
-                  { icon: '▶️', label: 'YouTube', url: '#' }
+                  { icon: '📘', label: 'Facebook', url: '/Contact' },
+                  { icon: '📷', label: 'Instagram', url: '/Contact' },
+                  { icon: '🐦', label: 'Twitter', url: '/Contact' },
+                  { icon: '💼', label: 'LinkedIn', url: '/Contact' },
+                  { icon: '▶️', label: 'YouTube', url: '/Contact' }
                 ].map((social) => (
                   <a
                     key={social.label}
@@ -67,8 +67,6 @@ function Footer() {
                   { name: 'Products', path: '/products' },
                   { name: 'About Us', path: '/about' },
                   { name: 'Contact', path: '/contact' },
-                  { name: 'Gallery', path: '/gallery' },
-                  { name: 'Testimonials', path: '/testimonials' }
                 ].map((link) => (
                   <li key={link.name}>
                     <Link 
@@ -92,7 +90,7 @@ function Footer() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <span className="text-yellow-400">📞</span>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+251 (555) 123-4567</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <span className="text-yellow-400">✉️</span>
@@ -130,16 +128,15 @@ function Footer() {
                 &copy; 2025 Hirpaa Furniture. All rights reserved. | Crafted with 💛 for elegant living spaces
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Privacy Policy</a>
-                <a href="#" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Terms of Service</a>
-                <a href="#" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Shipping Info</a>
-                <a href="#" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Returns</a>
+                <a href="/PrivacyPolicy" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Privacy Policy</a>
+                <a href="/TermsOfService" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Terms of Service</a>
+                <a href="/ShippingInfo" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Shipping Info</a>
               </div>
             </div>
 
             {/* Payment Icons */}
             <div className="flex justify-center mt-4 space-x-4">
-              {['💳', '🪙', '🏦', '🔒', '📱'].map((method, index) => (
+              {['🏦', '📱'].map((method, index) => (
                 <span key={index} className="text-2xl opacity-70 hover:opacity-100 transition duration-300">
                   {method}
                 </span>

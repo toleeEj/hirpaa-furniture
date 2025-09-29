@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { useLocation } from 'react-router-dom'
+
+// ScrollToTop Component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
+
+  return null;
+}
 
 function ProductDetail() {
   const { id } = useParams()
@@ -101,6 +113,9 @@ function ProductDetail() {
 
   return (
     <div className="relative overflow-hidden min-h-screen bg-black">
+      {/* Scroll to Top */}
+      <ScrollToTop />
+
       {/* Background Layer */}
       <div className="absolute inset-0">
         <div

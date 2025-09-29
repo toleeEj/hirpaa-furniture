@@ -1,6 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { useLocation } from 'react-router-dom'
+
+
+// ScrollToTop Component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
+
+  return null;
+}
+
 
 function Products() {
   const [products, setProducts] = useState([])
@@ -60,6 +74,10 @@ function Products() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+
+      {/* Scroll to Top */}
+      <ScrollToTop />
+
       {/* Header Section */}
       <div className="bg-gradient-to-r from-yellow-900 bg-opacity-20 to-yellow-800 bg-opacity-10 border-b border-yellow-500 border-opacity-20">
         <div className="container mx-auto px-4 py-8">

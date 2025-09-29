@@ -8,6 +8,11 @@ import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import About from './pages/About.jsx'
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
+import TermsOfService from './pages/TermsOfService.jsx'
+import ShippingInfo from './pages/ShippingInfo.jsx'
+
+
 import './index.css'
 
 function App() {
@@ -23,6 +28,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/TermsOfService" element={<TermsOfService />} />
+          <Route path="/ShippingInfo" element={<ShippingInfo />} />
+          
         </Routes>
       </main>
       <Footer />

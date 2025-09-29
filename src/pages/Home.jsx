@@ -1,6 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom'
+
+// ScrollToTop Component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
+
+  return null;
+}
 
 function Home() {
   const [products, setProducts] = useState([])
@@ -32,7 +45,11 @@ function Home() {
   )
 
   return (
+    
     <div className="relative overflow-hidden min-h-screen bg-black">
+      {/* Scroll to Top */}
+      <ScrollToTop />
+
       {/* Background Layer */}
       <div className="absolute inset-0">
         <div
@@ -54,12 +71,12 @@ function Home() {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url('/images/Why Your Home Must Have Wooden Furniture_.jpeg')",
+              backgroundImage: "url('/images/owner2.webp')",
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent"></div>
           </div>
           
@@ -86,7 +103,6 @@ function Home() {
             </div>
           </div>
         </div>
-
 
         {/* Company Intro */}
         <section className="py-16 px-4">
@@ -179,28 +195,6 @@ function Home() {
                 <p className="text-yellow-300 mt-4 font-semibold">- Michael Chen</p>
               </div>
             </div>
-            
-            {/* Trust Indicators */}
-            <div className="text-center">
-              <div className="inline-grid grid-cols-2 md:grid-cols-4 gap-8 bg-yellow-500/10 p-6 rounded-2xl border border-yellow-500/20">
-                <div>
-                  <div className="text-3xl text-yellow-400 font-bold">500+</div>
-                  <div className="text-gray-300">Happy Customers</div>
-                </div>
-                <div>
-                  <div className="text-3xl text-yellow-400 font-bold">4.8/5</div>
-                  <div className="text-gray-300">Average Rating</div>
-                </div>
-                <div>
-                  <div className="text-3xl text-yellow-400 font-bold">12+</div>
-                  <div className="text-gray-300">Years Experience</div>
-                </div>
-                <div>
-                  <div className="text-3xl text-yellow-400 font-bold">200+</div>
-                  <div className="text-gray-300">Unique Designs</div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -227,9 +221,79 @@ function Home() {
             </div>
           </div>
         </section>
+        {/* Meet the Owners Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-yellow-400 mb-6">Meet the Owners</h2>
+          <p className="text-xl text-gray-300 mb-10">
+            The visionaries behind Hirpaa Furniture. Each owner brings their unique expertise and passion to our company.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {['owner1.webp', 'owner2.webp', 'owner3.jpg', 'owner4.jpg', 'owner5.webp'].map((image, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <img 
+                  src={`/images/${image}`} 
+                  alt={`Owner ${index + 1}`} 
+                  className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
+                />
+                <h3 className="text-xl font-semibold text-yellow-300">Owner {index + 1}</h3>
+                <p className="text-gray-300">Owner {index + 1} is passionate about crafting timeless pieces that blend function and beauty.</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Why Choose Us Section */}
+        <div className="mt-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-yellow-400 mb-4">Why Choose Hirpaa?</h2>
+            <p className="text-gray-300 text-lg">Discover what sets us apart in the world of fine furniture</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: '🔨',
+                title: 'Expert Craftsmanship',
+                description: 'Each piece handcrafted by skilled artisans with decades of experience'
+              },
+              {
+                icon: '🌿',
+                title: 'Sustainable Materials',
+                description: 'Ethically sourced wood and eco-friendly finishes for a greener future'
+              },
+              {
+                icon: '⚡',
+                title: 'Custom Solutions',
+                description: 'Tailored designs to fit your unique space and personal style'
+              },
+              {
+                icon: '🏆',
+                title: 'Award-Winning Design',
+                description: 'Recognized internationally for innovation and aesthetic excellence'
+              },
+              {
+                icon: '🚚',
+                title: 'White-Glove Delivery',
+                description: 'Professional installation and setup included with every purchase'
+              },
+              {
+                icon: '🔒',
+                title: 'Lifetime Warranty',
+                description: 'Comprehensive warranty because we stand behind our craftsmanship'
+              }
+            ].map((feature, index) => (
+              <div key={index} className="text-center p-6 bg-yellow-500/5 rounded-lg border border-yellow-500/10">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h4 className="text-xl font-semibold text-yellow-300 mb-3">{feature.title}</h4>
+                <p className="text-gray-300">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-export default Home
+export default Home;
+

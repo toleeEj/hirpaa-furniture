@@ -1,8 +1,29 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
+
+  return null;
+}
+
 
 function About() {
   return (
     <div className="relative overflow-hidden min-h-screen bg-black">
+
+      {/* Scroll to Top */}
+      <ScrollToTop />
+
+      
+
+
+
       {/* Simplified Background */}
       <div className="absolute inset-0">
         <div

@@ -1,6 +1,19 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
+
+  return null;
+}
+
 function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -34,6 +47,9 @@ function Contact() {
 
   return (
     <div className="relative overflow-hidden min-h-screen bg-black">
+
+      {/* Scroll to Top */}
+      <ScrollToTop />
       {/* Background Layer */}
       <div className="absolute inset-0">
         <div
