@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react' // Updated import
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/authContext'
 import { supabase } from '../lib/supabase'
+import { useTranslation } from "react-i18next";
+
+
 
 function Dashboard() {
+  const { t } = useTranslation() // Added for translations
   const { user } = useAuth()
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
@@ -31,25 +35,25 @@ function Dashboard() {
 
   const fetchProducts = async () => {
     const { data, error } = await supabase.from('products').select('*')
-    if (error) setError('Failed to load products.')
+    if (error) setError(t('failedToLoadProducts')) // Translated
     else setProducts(data || [])
   }
 
   const fetchOrders = async () => {
     const { data, error } = await supabase.from('orders').select('*')
-    if (error) setError('Failed to load orders.')
+    if (error) setError(t('failedToLoadOrders')) // Translated
     else setOrders(data || [])
   }
 
   const fetchRequests = async () => {
     const { data, error } = await supabase.from('requests').select('*')
-    if (error) setError('Failed to load requests.')
+    if (error) setError(t('failedToLoadRequests')) // Translated
     else setRequests(data || [])
   }
 
   const fetchMessages = async () => {
     const { data, error } = await supabase.from('messages').select('*')
-    if (error) setError('Failed to load messages.')
+    if (error) setError(t('failedToLoadMessages')) // Translated
     else setMessages(data || [])
   }
 
@@ -86,7 +90,7 @@ function Dashboard() {
 
       if (error) setError(error.message)
       else {
-        setSuccess('Product updated successfully!')
+        setSuccess(t('productUpdatedSuccess')) // Translated
         setEditingProduct(null)
       }
     } else {
@@ -95,7 +99,7 @@ function Dashboard() {
         .from('products')
         .insert({ name, price: parseFloat(price), description, image_url: imageUrl })
       if (error) setError(error.message)
-      else setSuccess('Product added successfully!')
+      else setSuccess(t('productAddedSuccess')) // Translated
     }
 
     setName('')
@@ -109,7 +113,7 @@ function Dashboard() {
     const { error } = await supabase.from('products').delete().eq('id', id)
     if (error) setError(error.message)
     else {
-      setSuccess('Product deleted successfully!')
+      setSuccess(t('productDeletedSuccess')) // Translated
       fetchProducts()
     }
   }
@@ -121,7 +125,7 @@ function Dashboard() {
       .eq('id', id)
     if (error) setError(error.message)
     else {
-      setSuccess('Order status updated successfully!')
+      setSuccess(t('orderStatusUpdated')) // Translated
       fetchOrders()
     }
   }
@@ -130,7 +134,7 @@ function Dashboard() {
     const { error } = await supabase.from('requests').delete().eq('id', id)
     if (error) setError(error.message)
     else {
-      setSuccess('Request deleted successfully!')
+      setSuccess(t('requestDeletedSuccess')) // Translated
       fetchRequests()
     }
   }
@@ -139,7 +143,7 @@ function Dashboard() {
     const { error } = await supabase.from('orders').delete().eq('id', id)
     if (error) setError(error.message)
     else {
-      setSuccess('Order deleted successfully!')
+      setSuccess(t('orderDeletedSuccess')) // Translated
       fetchOrders()
     }
   }
@@ -148,7 +152,7 @@ function Dashboard() {
     const { error } = await supabase.from('messages').delete().eq('id', id)
     if (error) setError(error.message)
     else {
-      setSuccess('Message deleted successfully!')
+      setSuccess(t('messageDeletedSuccess')) // Translated
       fetchMessages()
     }
   }
@@ -183,9 +187,9 @@ function Dashboard() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="text-yellow-400">Admin</span> Dashboard
+            <span className="text-yellow-400">{t('admin')}</span> {t('dashboard')}
           </h2>
-          <p className="text-gray-300 text-lg">Welcome back, <span className="text-yellow-400">{user.email}</span>!</p>
+          <p className="text-gray-300 text-lg">{t('welcomeBack')} <span className="text-yellow-400">{user.email}</span>!</p>
         </div>
 
         {/* Success/Error Messages */}
@@ -203,45 +207,45 @@ function Dashboard() {
         {/* Product Management Section */}
         <div className="bg-black/30 p-6 rounded-2xl border border-yellow-500/20 mb-8">
           <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">
-            {editingProduct ? 'Edit Product' : 'Add New Product'}
+            {editingProduct ? t('editProduct') : t('addNewProduct')}
           </h3>
           
           <form onSubmit={handleAddProduct} className="max-w-2xl mx-auto space-y-6">
             <div>
-              <label className="block text-yellow-300 font-semibold mb-2">Product Name</label>
+              <label className="block text-yellow-300 font-semibold mb-2">{t('productName')}</label> {/* Translated */}
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
-                placeholder="e.g., Luxury Wooden Sofa"
+                placeholder={t('productNamePlaceholder')} /* Translated */
                 required
               />
             </div>
             <div>
-              <label className="block text-yellow-300 font-semibold mb-2">Price ($)</label>
+              <label className="block text-yellow-300 font-semibold mb-2">{t('price')}</label> {/* Translated */}
               <input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
-                placeholder="e.g., 299"
+                placeholder={t('pricePlaceholder')} /* Translated */
                 required
               />
             </div>
             <div>
-              <label className="block text-yellow-300 font-semibold mb-2">Description</label>
+              <label className="block text-yellow-300 font-semibold mb-2">{t('description')}</label> {/* Translated */}
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 resize-vertical"
-                placeholder="Detailed product description..."
+                placeholder={t('descriptionPlaceholder')} /* Translated */
                 rows="3"
                 required
               ></textarea>
             </div>
             <div>
-              <label className="block text-yellow-300 font-semibold mb-2">Product Image</label>
+              <label className="block text-yellow-300 font-semibold mb-2">{t('productImage')}</label> {/* Translated */}
               <input
                 type="file"
                 accept="image/*"
@@ -253,7 +257,7 @@ function Dashboard() {
               type="submit"
               className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-3 rounded-lg font-semibold text-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 shadow-lg"
             >
-              {editingProduct ? 'Update Product' : 'Add Product'}
+              {editingProduct ? t('updateProduct') : t('addProduct')} {/* Translated */}
             </button>
             {editingProduct && (
               <button
@@ -267,7 +271,7 @@ function Dashboard() {
                 }}
                 className="w-full border-2 border-yellow-500 text-yellow-400 py-3 rounded-lg font-semibold text-lg hover:bg-yellow-500/10 transition duration-300"
               >
-                Cancel Edit
+                {t('cancelEdit')} {/* Translated */}
               </button>
             )}
           </form>
@@ -275,7 +279,7 @@ function Dashboard() {
 
         {/* Manage Products */}
         <div className="bg-black/30 p-6 rounded-2xl border border-yellow-500/20 mb-8">
-          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Manage Products ({products.length})</h3>
+          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">{t('manageProducts')} ({products.length})</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div key={product.id} className="bg-yellow-500/5 p-4 rounded-lg border border-yellow-500/20 hover:bg-yellow-500/10 transition duration-300">
@@ -294,13 +298,13 @@ function Dashboard() {
                     onClick={() => handleEditProduct(product)}
                     className="flex-1 bg-blue-500/20 text-blue-300 py-2 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition duration-300"
                   >
-                    Edit
+                    {t('edit')} {/* Translated */}
                   </button>
                   <button
                     onClick={() => handleDeleteProduct(product.id)}
                     className="flex-1 bg-red-500/20 text-red-300 py-2 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition duration-300"
                   >
-                    Delete
+                    {t('delete')} /* Translated */
                   </button>
                 </div>
               </div>
@@ -310,16 +314,16 @@ function Dashboard() {
 
         {/* Manage Orders */}
         <div className="bg-black/30 p-6 rounded-2xl border border-yellow-500/20 mb-8">
-          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Manage Orders ({orders.length})</h3>
+          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">{t('manageOrders')} ({orders.length})</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {orders.map((order) => (
               <div key={order.id} className="bg-yellow-500/5 p-4 rounded-lg border border-yellow-500/20">
                 <div className="space-y-2 mb-4">
-                  <p className="text-yellow-300"><span className="font-semibold">Customer:</span> {order.customer_name}</p>
-                  <p className="text-gray-300"><span className="font-semibold">Product ID:</span> {order.product_id}</p>
-                  <p className="text-gray-300"><span className="font-semibold">Message:</span> {order.message || 'No message'}</p>
+                  <p className="text-yellow-300"><span className="font-semibold">{t('customer')}:</span> {order.customer_name}</p>
+                  <p className="text-gray-300"><span className="font-semibold">{t('productId')}:</span> {order.product_id}</p>
+                  <p className="text-gray-300"><span className="font-semibold">{t('message')}:</span> {order.message || t('noMessage')}</p>
                   <p className="text-gray-300">
-                    <span className="font-semibold">Status:</span> 
+                    <span className="font-semibold">{t('status')}:</span> 
                     <span className={`ml-2 px-2 py-1 rounded text-xs ${
                       order.status === 'completed' ? 'bg-green-500/20 text-green-300' :
                       order.status === 'in progress' ? 'bg-yellow-500/20 text-yellow-300' :
@@ -335,15 +339,15 @@ function Dashboard() {
                     onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                     className="flex-1 p-2 bg-black/50 border border-yellow-500/30 rounded-lg text-white focus:outline-none focus:border-yellow-400"
                   >
-                    <option value="new" className="bg-black">New</option>
-                    <option value="in progress" className="bg-black">In Progress</option>
-                    <option value="completed" className="bg-black">Completed</option>
+                    <option value="new" className="bg-black">{t('new')}</option>
+                    <option value="in progress" className="bg-black">{t('inProgress')}</option>
+                    <option value="completed" className="bg-black">{t('completed')}</option>
                   </select>
                   <button
                     onClick={() => handleDeleteOrder(order.id)}
                     className="px-4 bg-red-500/20 text-red-300 py-2 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition duration-300"
                   >
-                    Delete
+                    {t('delete')} /* Translated */
                   </button>
                 </div>
               </div>
@@ -353,7 +357,7 @@ function Dashboard() {
 
         {/* Manage Requests */}
         <div className="bg-black/30 p-6 rounded-2xl border border-yellow-500/20 mb-8">
-          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Customer Requests ({requests.length})</h3>
+          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">{t('manageRequests')} ({requests.length})</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {requests.map((request) => (
               <div key={request.id} className="bg-yellow-500/5 p-4 rounded-lg border border-yellow-500/20">
@@ -363,7 +367,7 @@ function Dashboard() {
                   onClick={() => handleDeleteRequest(request.id)}
                   className="w-full bg-red-500/20 text-red-300 py-2 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition duration-300"
                 >
-                  Delete Request
+                  {t('deleteRequest')} /* Translated */
                 </button>
               </div>
             ))}
@@ -372,20 +376,20 @@ function Dashboard() {
 
         {/* Message Inbox */}
         <div className="bg-black/30 p-6 rounded-2xl border border-yellow-500/20">
-          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">Message Inbox ({messages.length})</h3>
+          <h3 className="text-2xl font-bold text-yellow-400 mb-6 text-center">{t('messageInbox')} ({messages.length})</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {messages.map((msg) => (
               <div key={msg.id} className="bg-yellow-500/5 p-4 rounded-lg border border-yellow-500/20">
                 <div className="space-y-2 mb-4">
-                  <p className="text-yellow-300"><span className="font-semibold">Name:</span> {msg.name}</p>
-                  <p className="text-gray-300"><span className="font-semibold">Email:</span> {msg.email}</p>
-                  <p className="text-gray-300 text-sm"><span className="font-semibold">Message:</span> {msg.message}</p>
+                  <p className="text-yellow-300"><span className="font-semibold">{t('name')}:</span> {msg.name}</p>
+                  <p className="text-gray-300"><span className="font-semibold">{t('email')}:</span> {msg.email}</p>
+                  <p className="text-gray-300 text-sm"><span className="font-semibold">{t('message')}:</span> {msg.message}</p>
                 </div>
                 <button
                   onClick={() => handleDeleteMessage(msg.id)}
                   className="w-full bg-red-500/20 text-red-300 py-2 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition duration-300"
                 >
-                  Delete Message
+                  {t('deleteMessage')} /* Translated */
                 </button>
               </div>
             ))}

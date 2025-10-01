@@ -11,11 +11,12 @@ import About from './pages/About.jsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 import TermsOfService from './pages/TermsOfService.jsx'
 import ShippingInfo from './pages/ShippingInfo.jsx'
-
-
+import { useTranslation } from 'react-i18next' // Add this for translations
 import './index.css'
 
 function App() {
+  const { t } = useTranslation() // Add this to access translations
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -31,7 +32,6 @@ function App() {
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/TermsOfService" element={<TermsOfService />} />
           <Route path="/ShippingInfo" element={<ShippingInfo />} />
-          
         </Routes>
       </main>
       <Footer />

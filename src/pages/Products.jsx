@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react' // Updated import
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useLocation } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 
 
 // ScrollToTop Component
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  }, [pathname]);
+    window.scrollTo(0, 0) // Scroll to the top of the page
+  }, [pathname])
 
-  return null;
+  return null
 }
 
-
 function Products() {
+  const { t } = useTranslation() // Added for translations
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -31,7 +32,7 @@ function Products() {
       setError(null)
       const { data, error } = await supabase.from('products').select('*')
       if (error) {
-        setError('Failed to load products. Check Supabase connection or permissions.')
+        setError(t('failedToLoadProducts')) // Translated
         console.error('Fetch error:', error)
       } else {
         setProducts(data || [])
@@ -59,7 +60,7 @@ function Products() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
       <div className="text-center">
         <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-yellow-200 text-lg">Loading products...</p>
+        <p className="text-yellow-200 text-lg">{t('loadingProducts')}</p> {/* Translated */}
       </div>
     </div>
   )
@@ -74,7 +75,6 @@ function Products() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
-
       {/* Scroll to Top */}
       <ScrollToTop />
 
@@ -83,10 +83,10 @@ function Products() {
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-4xl font-bold text-center mb-2">
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-              Luxury Collection
+              {t('luxuryCollection')}
             </span>
           </h1>
-          <p className="text-yellow-200 text-center text-lg">Discover our premium products</p>
+          <p className="text-yellow-200 text-center text-lg">{t('discoverPremiumProducts')}</p> {/* Translated */}
         </div>
       </div>
 
@@ -99,18 +99,18 @@ function Products() {
                 <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
                   <span className="text-black font-bold">%</span>
                 </div>
-                <h4 className="text-xl font-semibold text-yellow-300">Special Discount!</h4>
+                <h4 className="text-xl font-semibold text-yellow-300">{t('specialDiscount')}</h4> {/* Translated */}
               </div>
-              <p className="text-yellow-100">Get 15% off on selected items. Shop now!</p>
+              <p className="text-yellow-100">{t('discountOffer')}</p> {/* Translated */}
             </div>
             <div className="bg-gradient-to-r from-amber-900 bg-opacity-30 to-amber-800 bg-opacity-20 p-6 rounded-2xl border border-amber-500 border-opacity-30 shadow-2xl shadow-amber-500 shadow-opacity-10">
               <div className="flex items-center mb-2">
                 <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-3">
                   <span className="text-black font-bold">🔥</span>
                 </div>
-                <h4 className="text-xl font-semibold text-amber-300">Clearance Sale</h4>
+                <h4 className="text-xl font-semibold text-amber-300">{t('clearanceSale')}</h4> {/* Translated */}
               </div>
-              <p className="text-amber-100">Up to 30% off on last season's stock.</p>
+              <p className="text-amber-100">{t('saleOffer')}</p> {/* Translated */}
             </div>
           </div>
         </section>
@@ -120,14 +120,14 @@ function Products() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Search Bar */}
             <div>
-              <label className="block text-yellow-300 mb-2 font-medium">Search Products</label>
+              <label className="block text-yellow-300 mb-2 font-medium">{t('searchProducts')}</label> {/* Translated */}
               <div className="relative">
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full p-3 bg-gray-900 bg-opacity-50 border border-yellow-500 border-opacity-30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 focus:border-yellow-500 transition-all duration-300"
-                  placeholder="Search products by name..."
+                  placeholder={t('searchPlaceholder')} /* Translated */
                 />
                 <div className="absolute right-3 top-3 text-yellow-400">
                   🔍
@@ -138,7 +138,7 @@ function Products() {
             {/* Price Range Filter */}
             <div>
               <label className="block text-yellow-300 mb-2 font-medium">
-                Price Range: <span className="text-yellow-400">${minPrice} - ${maxPrice}</span>
+                {t('priceRange')} <span className="text-yellow-400">${minPrice} - ${maxPrice}</span>
               </label>
               <div className="space-y-4">
                 <div className="relative">
@@ -166,15 +166,15 @@ function Products() {
 
             {/* Sort Options */}
             <div>
-              <label className="block text-yellow-300 mb-2 font-medium">Sort By</label>
+              <label className="block text-yellow-300 mb-2 font-medium">{t('sortBy')}</label> {/* Translated */}
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
                 className="w-full p-3 bg-gray-900 bg-opacity-50 border border-yellow-500 border-opacity-30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 focus:border-yellow-500 transition-all duration-300"
               >
-                <option value="price-asc" className="bg-gray-900">Price: Low to High</option>
-                <option value="price-desc" className="bg-gray-900">Price: High to Low</option>
-                <option value="newest" className="bg-gray-900">Newest First</option>
+                <option value="price-asc" className="bg-gray-900">{t('priceLowToHigh')}</option> {/* Translated */}
+                <option value="price-desc" className="bg-gray-900">{t('priceHighToLow')}</option> {/* Translated */}
+                <option value="newest" className="bg-gray-900">{t('newestFirst')}</option> {/* Translated */}
               </select>
             </div>
           </div>
@@ -184,11 +184,11 @@ function Products() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <h2 className="text-3xl font-bold">
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-              Our Products
+              {t('ourProducts')}
             </span>
           </h2>
           <span className="text-yellow-300 bg-yellow-500 bg-opacity-10 px-4 py-2 rounded-full border border-yellow-500 border-opacity-20 text-sm font-medium">
-            {sortedProducts.length} {sortedProducts.length === 1 ? 'item' : 'items'} found
+            {sortedProducts.length} {sortedProducts.length === 1 ? t('item') : t('items')} {t('found')}
           </span>
         </div>
 
@@ -229,7 +229,7 @@ function Products() {
                   to={`/products/${product.id}`}
                   className="w-full mt-3 inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-yellow-700 text-white p-3 rounded-xl hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 font-medium group-hover:shadow-lg group-hover:shadow-yellow-500 group-hover:shadow-opacity-25"
                 >
-                  View Details
+                  {t('viewDetails')}
                   <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
                 </Link>
               </div>
@@ -243,8 +243,8 @@ function Products() {
             <div className="w-24 h-24 bg-yellow-500 bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500 border-opacity-20">
               <span className="text-4xl">🔍</span>
             </div>
-            <h3 className="text-2xl font-semibold text-yellow-300 mb-2">No products found</h3>
-            <p className="text-gray-400">Try adjusting your search or filter criteria</p>
+            <h3 className="text-2xl font-semibold text-yellow-300 mb-2">{t('noProductsFound')}</h3> {/* Translated */}
+            <p className="text-gray-400">{t('adjustSearchFilters')}</p> {/* Translated */}
           </div>
         )}
       </div>

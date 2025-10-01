@@ -1,16 +1,20 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Keep existing
 import { useState } from 'react';
+import i18n from '../i18n'; 
 
 const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/products', label: 'Products' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
+  { to: '/', label: 'home' }, // Keep existing translation keys
+  { to: '/products', label: 'products' },
+  { to: '/about', label: 'about' },
+  { to: '/contact', label: 'contact' },
 ];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false); // Add state for language dropdown
   const location = useLocation();
+  const { t } = useTranslation(); // Keep existing
 
   const isActive = (path) =>
     location.pathname === path
@@ -19,6 +23,11 @@ function Navbar() {
 
   const linkClass =
     'transition duration-300 px-3 py-2 rounded-lg hover:bg-yellow-500/10';
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setIsLanguageOpen(false); // Close dropdown after selection
+  };
 
   return (
     <nav className="relative sticky top-0 z-50 shadow-md">
@@ -58,9 +67,51 @@ function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map(({ to, label }) => (
               <Link key={to} to={to} className={`${linkClass} ${isActive(to)}`}>
-                {label}
+                {t(label)} {/* Keep existing translation */}
               </Link>
             ))}
+            {/* Language Switcher for Desktop */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                className="bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500/30 px-4 py-2 rounded-lg flex items-center transition duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+                aria-label="Language Switcher"
+              >
+                <span className="mr-2 text-lg">🌐</span>
+                {t('language')} {/* Optional: Translate "Language" if needed */}
+                <svg
+                  className={`w-4 h-4 ml-2 transform transition duration-300 ${isLanguageOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {/* Language Dropdown for Desktop */}
+              {isLanguageOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-black/95 backdrop-blur-md border border-yellow-500/30 rounded-lg shadow-xl py-2 z-50 animate-fadeIn">
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                  >
+                    🇺🇸 English
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('am')}
+                    className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                  >
+                    🇪🇹 Amharic
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('om')}
+                    className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                  >
+                    🇪🇹 Oromo
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -78,7 +129,7 @@ function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`md:hidden transition-all overflow-hidden duration-300 ${isOpen ? 'max-h-64 pb-4' : 'max-h-0'}`}>
+        <div className={`md:hidden transition-all overflow-hidden duration-300 ${isOpen ? 'max-h-96 pb-4' : 'max-h-0'}`}>
           <div className="flex flex-col space-y-2 border-t border-yellow-500/20 pt-4">
             {navLinks.map(({ to, label }) => (
               <Link
@@ -87,12 +138,66 @@ function Navbar() {
                 className={`py-3 px-4 rounded-lg hover:bg-yellow-500/10 transition ${isActive(to)}`}
                 onClick={() => setIsOpen(false)}
               >
-                {label}
+                {t(label)} {/* Keep existing translation */}
               </Link>
             ))}
+            {/* Language Switcher for Mobile */}
+            <div className="px-4 pt-4 border-t border-yellow-500/20">
+              <div className="relative">
+                <button
+                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                  className="w-full bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500/30 px-4 py-3 rounded-lg flex items-center justify-between transition duration-300 focus:outline-none"
+                >
+                  <span className="text-lg mr-2">🌐</span>
+                  {t('language')}
+                  <svg
+                    className={`w-4 h-4 transform transition duration-300 ${isLanguageOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {/* Language Dropdown for Mobile */}
+                {isLanguageOpen && (
+                  <div className="absolute left-0 mt-2 w-full bg-black/95 backdrop-blur-md border border-yellow-500/30 rounded-lg shadow-xl py-2 z-50 animate-fadeIn">
+                    <button
+                      onClick={() => changeLanguage('en')}
+                      className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                    >
+                      🇺🇸 English
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('am')}
+                      className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                    >
+                      🇪🇹 Amharic
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('om')}
+                      className="w-full text-left px-4 py-3 text-yellow-300 hover:bg-yellow-500/20 transition duration-300 text-sm"
+                    >
+                      🇪🇹 Oromo
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Custom Animation */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
+        }
+      `}</style>
     </nav>
   );
 }

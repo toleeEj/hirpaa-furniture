@@ -1,20 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react' // Updated import
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useLocation } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
+
 
 // ScrollToTop Component
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  }, [pathname]);
+    window.scrollTo(0, 0) // Scroll to the top of the page
+  }, [pathname])
 
-  return null;
+  return null
 }
 
 function ProductDetail() {
+  const { t } = useTranslation() // Added for translations
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -35,7 +38,7 @@ function ProductDetail() {
         .select('*')
         .eq('id', id)
         .single()
-      if (error) setError('Product not found.')
+      if (error) setError(t('productNotFound')) // Translated
       else setProduct(data)
       setLoading(false)
     }
@@ -56,7 +59,7 @@ function ProductDetail() {
     })
     if (error) setError(error.message)
     else {
-      setSuccess('Order placed successfully! We will contact you shortly.')
+      setSuccess(t('orderPlacedSuccess')) // Translated
       setCustomerName('')
       setMessage('')
       setShowOrderForm(false)
@@ -75,7 +78,7 @@ function ProductDetail() {
     })
     if (error) setError(error.message)
     else {
-      setSuccess('Request submitted successfully! Thank you for your interest.')
+      setSuccess(t('requestSubmittedSuccess')) // Translated
       setCustomerName('')
       setMessage('')
       setShowRequestForm(false)
@@ -85,7 +88,7 @@ function ProductDetail() {
 
   if (loading) return (
     <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="text-yellow-400 text-xl">Loading product details...</div>
+      <div className="text-yellow-400 text-xl">{t('loadingProductDetails')}</div> {/* Translated */}
     </div>
   )
   
@@ -94,7 +97,7 @@ function ProductDetail() {
       <div className="text-center">
         <div className="text-red-400 text-xl mb-4">{error}</div>
         <Link to="/products" className="text-yellow-400 hover:text-yellow-300 underline">
-          Back to Products
+          {t('backToProducts')}
         </Link>
       </div>
     </div>
@@ -103,9 +106,9 @@ function ProductDetail() {
   if (!product) return (
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center">
-        <div className="text-gray-400 text-xl mb-4">No product data available.</div>
+        <div className="text-gray-400 text-xl mb-4">{t('noProductData')}</div> {/* Translated */}
         <Link to="/products" className="text-yellow-400 hover:text-yellow-300 underline">
-          Browse Our Collection
+          {t('browseCollection')}
         </Link>
       </div>
     </div>
@@ -134,9 +137,9 @@ function ProductDetail() {
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6">
-          <Link to="/" className="text-yellow-400 hover:text-yellow-300">Home</Link>
+          <Link to="/" className="text-yellow-400 hover:text-yellow-300">{t('home')}</Link>
           <span className="text-gray-400 mx-2">/</span>
-          <Link to="/products" className="text-yellow-400 hover:text-yellow-300">Products</Link>
+          <Link to="/products" className="text-yellow-400 hover:text-yellow-300">{t('products')}</Link>
           <span className="text-gray-400 mx-2">/</span>
           <span className="text-gray-300">{product.name}</span>
         </nav>
@@ -175,31 +178,31 @@ function ProductDetail() {
             
             <div className="mb-6">
               <span className="text-3xl font-bold text-yellow-300">${product.price}</span>
-              <span className="text-gray-400 ml-2">+ Free Shipping</span>
+              <span className="text-gray-400 ml-2">{t('freeShipping')}</span> {/* Translated */}
             </div>
 
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-yellow-300 mb-3">Description</h3>
+              <h3 className="text-xl font-semibold text-yellow-300 mb-3">{t('description')}</h3> {/* Translated */}
               <p className="text-gray-300 text-lg leading-relaxed">
-                {product.description || 'No description available for this product.'}
+                {product.description || t('noDescriptionAvailable')} {/* Translated */}
               </p>
             </div>
 
             {/* Product Features */}
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-yellow-300 mb-3">Features</h3>
+              <h3 className="text-xl font-semibold text-yellow-300 mb-3">{t('features')}</h3> {/* Translated */}
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  'Premium Materials',
-                  'Expert Craftsmanship',
-                  'Free Shipping',
-                  'Lifetime Warranty',
-                  'Easy Assembly',
-                  'Eco-Friendly'
+                  'premiumMaterials',
+                  'expertCraftsmanship',
+                  'freeShipping',
+                  'lifetimeWarranty',
+                  'easyAssembly',
+                  'ecoFriendly'
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center text-gray-300">
                     <span className="text-yellow-400 mr-2">✓</span>
-                    {feature}
+                    {t(feature)} {/* Translated */}
                   </div>
                 ))}
               </div>
@@ -218,7 +221,7 @@ function ProductDetail() {
                 }}
                 className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-3 rounded-lg font-semibold text-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 shadow-lg"
               >
-                🛒 Order Now
+                {t('orderNow')}
               </button>
               
               <button
@@ -232,33 +235,33 @@ function ProductDetail() {
                 }}
                 className="w-full border-2 border-yellow-500 text-yellow-400 py-3 rounded-lg font-semibold text-lg hover:bg-yellow-500/10 transition duration-300"
               >
-                💬 Custom Request
+                {t('customRequest')}
               </button>
             </div>
 
             {/* Order Form */}
             {showOrderForm && (
               <div className="bg-yellow-500/10 p-6 rounded-lg border border-yellow-500/20 mb-4">
-                <h3 className="text-xl font-semibold text-yellow-300 mb-4">Place Your Order</h3>
+                <h3 className="text-xl font-semibold text-yellow-300 mb-4">{t('placeOrder')}</h3> {/* Translated */}
                 <form onSubmit={handleOrder} className="space-y-4">
                   <div>
-                    <label className="block text-yellow-300 font-semibold mb-2">Your Name</label>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('yourName')}</label> {/* Translated */}
                     <input
                       type="text"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
-                      placeholder="Enter your full name"
+                      placeholder={t('enterFullName')} /* Translated */
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-yellow-300 font-semibold mb-2">Special Requests</label>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('specialRequests')}</label> {/* Translated */}
                     <textarea
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 resize-vertical"
-                      placeholder="Any customization or special requirements?"
+                      placeholder={t('customizationPlaceholder')} /* Translated */
                       rows="3"
                     ></textarea>
                   </div>
@@ -267,7 +270,7 @@ function ProductDetail() {
                     disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-3 rounded-lg font-semibold hover:from-yellow-400 hover:to-yellow-500 transition duration-300 disabled:opacity-50"
                   >
-                    {isSubmitting ? 'Placing Order...' : 'Confirm Order'}
+                    {isSubmitting ? t('placingOrder') : t('confirmOrder')} {/* Translated */}
                   </button>
                 </form>
               </div>
@@ -276,26 +279,26 @@ function ProductDetail() {
             {/* Request Form */}
             {showRequestForm && (
               <div className="bg-yellow-500/10 p-6 rounded-lg border border-yellow-500/20">
-                <h3 className="text-xl font-semibold text-yellow-300 mb-4">Custom Product Request</h3>
+                <h3 className="text-xl font-semibold text-yellow-300 mb-4">{t('customProductRequest')}</h3> {/* Translated */}
                 <form onSubmit={handleRequest} className="space-y-4">
                   <div>
-                    <label className="block text-yellow-300 font-semibold mb-2">Your Name</label>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('yourName')}</label> {/* Translated */}
                     <input
                       type="text"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
-                      placeholder="Enter your full name"
+                      placeholder={t('enterFullName')} /* Translated */
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-yellow-300 font-semibold mb-2">Request Details</label>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('requestDetails')}</label> {/* Translated */}
                     <textarea
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 resize-vertical"
-                      placeholder="Describe your custom furniture requirements..."
+                      placeholder={t('requestPlaceholder')} /* Translated */
                       rows="4"
                       required
                     ></textarea>
@@ -305,7 +308,7 @@ function ProductDetail() {
                     disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-3 rounded-lg font-semibold hover:from-yellow-400 hover:to-yellow-500 transition duration-300 disabled:opacity-50"
                   >
-                    {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                    {isSubmitting ? t('submitting') : t('submitRequest')} {/* Translated */}
                   </button>
                 </form>
               </div>
@@ -315,7 +318,7 @@ function ProductDetail() {
             <div className="mt-6 text-center">
               <div className="inline-flex items-center space-x-2 text-gray-400 text-sm">
                 <span>🔒</span>
-                <span>Secure transaction • 24/7 Support • Free Returns</span>
+                <span>{t('secureTransaction')} • {t('24_7Support')} • {t('freeReturns')}</span> {/* Translated */}
               </div>
             </div>
           </div>
@@ -327,7 +330,7 @@ function ProductDetail() {
             to="/products" 
             className="inline-block border-2 border-yellow-500 text-yellow-400 px-8 py-3 rounded-lg hover:bg-yellow-500/10 transition duration-300 font-semibold"
           >
-            ← Back to Products Collection
+            ← {t('backToProductsCollection')}
           </Link>
         </div>
       </div>

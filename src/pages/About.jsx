@@ -1,28 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next' // Updated import
+import { useEffect } from "react";
+
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  }, [pathname]);
+    window.scrollTo(0, 0) // Scroll to the top of the page
+  }, [pathname])
 
-  return null;
+  return null
 }
 
-
 function About() {
+  const { t } = useTranslation() // Added for translations
+
   return (
     <div className="relative overflow-hidden min-h-screen bg-black">
-
       {/* Scroll to Top */}
       <ScrollToTop />
-
-      
-
-
 
       {/* Simplified Background */}
       <div className="absolute inset-0">
@@ -45,20 +43,19 @@ function About() {
         {/* Hero Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="text-yellow-400">Crafting</span> 
-            <span className="text-white"> Excellence</span>
+            <span className="text-yellow-400">{t('crafting')}</span> 
+            <span className="text-white">{t('excellence')}</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            For over a decade, Hirpaa Furniture has been transforming spaces with exquisite, 
-            handcrafted furniture that blends timeless elegance with modern functionality.
+            {t('aboutDecadeIntro')} {/* Translated */}
           </p>
         </div>
 
         {/* Meet the Owners Section */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-yellow-400 mb-6">Meet the Owners</h2>
+          <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('meetTheOwners')}</h2> {/* Translated */}
           <p className="text-xl text-gray-300 mb-10">
-            The visionaries behind Hirpaa Furniture. Each owner brings their unique expertise and passion to our company.
+            {t('ownersVisionaries')} {/* Translated */}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -70,7 +67,7 @@ function About() {
                   className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
                 />
                 <h3 className="text-xl font-semibold text-yellow-300">Owner {index + 1}</h3>
-                <p className="text-gray-300">Owner {index + 1} is passionate about crafting timeless pieces that blend function and beauty.</p>
+                <p className="text-gray-300">{t('ownerPassion')} {index + 1}</p> {/* Translated */}
               </div>
             ))}
           </div>
@@ -79,14 +76,14 @@ function About() {
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
-            { number: '12+', label: 'Years Experience' },
+            { number: '12+', label: 'years Experience' },
             { number: '5000+', label: 'Happy Customers' },
             { number: '200+', label: 'Unique Designs' },
             { number: '15+', label: 'Awards Won' }
           ].map((stat, index) => (
             <div key={index} className="text-center p-6 bg-yellow-500/10 rounded-xl border border-yellow-500/20">
               <div className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">{stat.number}</div>
-              <div className="text-gray-300 text-sm">{stat.label}</div>
+              <div className="text-gray-300 text-sm">{t(stat.label)}</div> {/* Translated */}
             </div>
           ))}
         </div>
@@ -96,29 +93,24 @@ function About() {
           {/* Our Story */}
           <div>
             <div className="mb-8">
-              <span className="text-yellow-400 font-semibold text-lg">Our Journey</span>
-              <h2 className="text-4xl font-bold mt-2 text-white">The Hirpaa Story</h2>
+              <span className="text-yellow-400 font-semibold text-lg">{t('ourJourney')}</span> {/* Translated */}
+              <h2 className="text-4xl font-bold mt-2 text-white">{t('theHirpaaStory')}</h2> {/* Translated */}
             </div>
             
             <div className="space-y-6">
               <p className="text-gray-300 text-lg leading-relaxed">
-                Founded in 2012 by master craftsman Samuel Hirpaa, our company began as a small workshop 
-                with a big vision: to create furniture that tells a story. What started as a passion project 
-                has grown into a renowned brand known for exceptional quality and design innovation.
+                {t('foundedIn2012')} {/* Translated */}
               </p>
               
               <p className="text-gray-300 text-lg leading-relaxed">
-                Each piece in our collection is meticulously crafted by skilled artisans who share our 
-                commitment to excellence. We source only the finest materials, ensuring that every item 
-                not only looks beautiful but stands the test of time.
+                {t('craftedByArtisans')} {/* Translated */}
               </p>
 
               <div className="bg-yellow-500/10 p-6 rounded-lg border-l-4 border-yellow-400">
                 <p className="text-yellow-200 italic text-lg">
-                  "Furniture should be more than functional—it should inspire, comfort, and become 
-                  part of your family's story."
+                  {t('furnitureInspires')} {/* Translated */}
                 </p>
-                <p className="text-yellow-400 mt-2 font-semibold">- Samuel Hirpaa, Founder</p>
+                <p className="text-yellow-400 mt-2 font-semibold">- {t('samuelHirpaa')} {t('founder')}</p> {/* Translated */}
               </div>
             </div>
           </div>
@@ -129,12 +121,10 @@ function About() {
             <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/20">
               <h3 className="text-2xl font-semibold mb-4 text-yellow-300 flex items-center">
                 <span className="text-yellow-400 mr-3">🎯</span>
-                Our Mission
+                {t('ourMission')} {/* Translated */}
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                To enhance living spaces with furniture that combines aesthetic beauty, functional design, 
-                and sustainable practices. We're committed to creating pieces that become cherished parts 
-                of your home for generations.
+                {t('enhanceLivingSpaces')} {/* Translated */}
               </p>
             </div>
 
@@ -142,11 +132,10 @@ function About() {
             <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/20">
               <h3 className="text-2xl font-semibold mb-4 text-yellow-300 flex items-center">
                 <span className="text-yellow-400 mr-3">✨</span>
-                Our Vision
+                {t('ourVision')} {/* Translated */}
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                To be the leading choice for discerning homeowners who value quality craftsmanship, 
-                innovative design, and furniture that makes a statement while serving everyday life.
+                {t('leadingChoiceHomeowners')} {/* Translated */}
               </p>
             </div>
 
@@ -154,7 +143,7 @@ function About() {
             <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/20">
               <h3 className="text-2xl font-semibold mb-4 text-yellow-300 flex items-center">
                 <span className="text-yellow-400 mr-3">💎</span>
-                Core Values
+                {t('coreValues')} {/* Translated */}
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -167,7 +156,7 @@ function About() {
                 ].map((value, index) => (
                   <div key={index} className="flex items-center text-gray-300">
                     <span className="text-yellow-400 mr-2">✓</span>
-                    {value}
+                    {t(value)} {/* Translated */}
                   </div>
                 ))}
               </div>
@@ -178,46 +167,46 @@ function About() {
         {/* Why Choose Us Section */}
         <div className="mt-20">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-yellow-400 mb-4">Why Choose Hirpaa?</h2>
-            <p className="text-gray-300 text-lg">Discover what sets us apart in the world of fine furniture</p>
+            <h2 className="text-4xl font-bold text-yellow-400 mb-4">{t('whyChooseHirpaa')}</h2> {/* Translated */}
+            <p className="text-gray-300 text-lg">{t('whatSetsUsApart')}</p> {/* Translated */}
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: '🔨',
-                title: 'Expert Craftsmanship',
+                title: 'expertCraftsmanship',
                 description: 'Each piece handcrafted by skilled artisans with decades of experience'
               },
               {
                 icon: '🌿',
-                title: 'Sustainable Materials',
+                title: 'sustainableMaterials',
                 description: 'Ethically sourced wood and eco-friendly finishes for a greener future'
               },
               {
                 icon: '⚡',
-                title: 'Custom Solutions',
+                title: 'customSolutions',
                 description: 'Tailored designs to fit your unique space and personal style'
               },
               {
                 icon: '🏆',
-                title: 'Award-Winning Design',
+                title: 'awardWinningDesign',
                 description: 'Recognized internationally for innovation and aesthetic excellence'
               },
               {
                 icon: '🚚',
-                title: 'White-Glove Delivery',
+                title: 'whiteGloveDelivery',
                 description: 'Professional installation and setup included with every purchase'
               },
               {
                 icon: '🔒',
-                title: 'Lifetime Warranty',
+                title: 'lifetimeWarranty',
                 description: 'Comprehensive warranty because we stand behind our craftsmanship'
               }
             ].map((feature, index) => (
               <div key={index} className="text-center p-6 bg-yellow-500/5 rounded-lg border border-yellow-500/10">
                 <div className="text-4xl mb-4">{feature.icon}</div>
-                <h4 className="text-xl font-semibold text-yellow-300 mb-3">{feature.title}</h4>
+                <h4 className="text-xl font-semibold text-yellow-300 mb-3">{t(feature.title)}</h4> {/* Translated */}
                 <p className="text-gray-300">{feature.description}</p>
               </div>
             ))}
@@ -226,29 +215,29 @@ function About() {
 
         {/* CTA Section */}
         <div className="text-center mt-16 p-8 bg-gradient-to-r from-yellow-600/20 to-yellow-500/20 rounded-2xl border border-yellow-500/30">
-          <h3 className="text-3xl font-bold text-yellow-300 mb-4">Ready to Transform Your Space?</h3>
+          <h3 className="text-3xl font-bold text-yellow-300 mb-4">{t('readyToTransform')}</h3> {/* Translated */}
           <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
-            Explore our collections or schedule a consultation with our design experts to bring your vision to life.
+            {t('exploreCollectionsConsultation')} {/* Translated */}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/products"
               className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-8 py-3 rounded-lg font-semibold text-lg shadow-lg"
             >
-              View Collections
+              {t('viewCollections')} {/* Translated */}
             </Link>
             <Link
               to="/contact"
               className="border-2 border-yellow-500 text-yellow-400 px-8 py-3 rounded-lg font-semibold text-lg"
             >
-              Book Consultation
+              {t('bookConsultation')} {/* Translated */}
             </Link>
           </div>
         </div>
 
         {/* Contact Info */}
         <div className="mt-16 text-center">
-          <h3 className="text-2xl font-semibold mb-6 text-yellow-300">Get in Touch</h3>
+          <h3 className="text-2xl font-semibold mb-6 text-yellow-300">{t('getInTouch')}</h3> {/* Translated */}
           <div className="grid md:grid-cols-3 gap-6 max-w-2xl mx-auto">
             <div className="flex items-center justify-center space-x-3 text-gray-300">
               <span className="text-2xl text-yellow-400">📧</span>
@@ -265,14 +254,14 @@ function About() {
             <div className="flex items-center justify-center space-x-3 text-gray-300">
               <span className="text-2xl text-yellow-400">📍</span>
               <Link to="/contact" className="hover:text-yellow-300">
-                Visit Showroom
+                {t('visitShowroom')} {/* Translated */}
               </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default About;
+export default About

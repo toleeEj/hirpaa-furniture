@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'; // Updated import
+import { useTranslation } from "react-i18next";
+
 
 function Footer() {
+  const { t } = useTranslation(); // Added for translations
+
   return (
     <footer className="relative bg-black text-white">
       {/* Elegant Background */}
@@ -60,20 +64,20 @@ function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-yellow-400 font-semibold text-lg mb-4">Quick Links</h3>
+              <h3 className="text-yellow-400 font-semibold text-lg mb-4">{t('quickLinks')}</h3> {/* Translated */}
               <ul className="space-y-3">
                 {[
-                  { name: 'Home', path: '/' },
-                  { name: 'Products', path: '/products' },
-                  { name: 'About Us', path: '/about' },
-                  { name: 'Contact', path: '/contact' },
+                  { name: 'home', path: '/' }, // Changed to translation keys
+                  { name: 'products', path: '/products' },
+                  { name: 'about', path: '/about' },
+                  { name: 'contact', path: '/contact' },
                 ].map((link) => (
                   <li key={link.name}>
                     <Link 
                       to={link.path} 
                       className="text-gray-300 hover:text-yellow-300 transition duration-300 hover:pl-2 block"
                     >
-                      {link.name}
+                      {t(link.name)} {/* Updated to use translation */}
                     </Link>
                   </li>
                 ))}
@@ -82,7 +86,7 @@ function Footer() {
 
             {/* Contact Info */}
             <div>
-              <h3 className="text-yellow-400 font-semibold text-lg mb-4">Contact Us</h3>
+              <h3 className="text-yellow-400 font-semibold text-lg mb-4">{t('contactUs')}</h3> {/* Translated */}
               <div className="space-y-3 text-gray-300">
                 <div className="flex items-center space-x-3">
                   <span className="text-yellow-400">📍</span>
@@ -104,7 +108,7 @@ function Footer() {
 
               {/* Newsletter Signup */}
               <div className="mt-6">
-                <h4 className="text-yellow-300 font-semibold mb-3">Newsletter</h4>
+                <h4 className="text-yellow-300 font-semibold mb-3">{t('newsletter')}</h4> {/* Translated */}
                 <div className="flex">
                   <input 
                     type="email" 
@@ -112,7 +116,7 @@ function Footer() {
                     className="flex-1 px-3 py-2 bg-black/50 border border-yellow-500/30 text-white placeholder-gray-400 rounded-l-lg focus:outline-none focus:border-yellow-400"
                   />
                   <button className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-4 py-2 rounded-r-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 font-semibold">
-                    Join
+                    {t('join')} {/* Translated */}
                   </button>
                 </div>
               </div>
@@ -125,12 +129,12 @@ function Footer() {
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                &copy; 2025 Hirpaa Furniture. All rights reserved. | Crafted with 💛 for elegant living spaces
+                &copy; 2025 {t('hirpaaFurniture')}. {t('allRightsReserved')} | {t('craftedWithLove')} for elegant living spaces
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="/PrivacyPolicy" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Privacy Policy</a>
-                <a href="/TermsOfService" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Terms of Service</a>
-                <a href="/ShippingInfo" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">Shipping Info</a>
+                <a href="/PrivacyPolicy" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">{t('privacyPolicy')}</a>
+                <a href="/TermsOfService" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">{t('termsOfService')}</a>
+                <a href="/ShippingInfo" className="text-gray-400 hover:text-yellow-300 text-sm transition duration-300">{t('shippingInfo')}</a>
               </div>
             </div>
 
