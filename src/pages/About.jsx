@@ -227,6 +227,12 @@ function About() {
               {t('viewCollections')} {/* Translated */}
             </Link>
             <Link
+                to="/products"
+                className="bg-gradient-to-r from-yellow-800 to-yellow-600 text-black px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 font-semibold text-lg"
+              >
+                {t('shopCollection')} {/* Translated */}
+              </Link>
+            <Link
               to="/contact"
               className="border-2 border-yellow-500 text-yellow-400 px-8 py-3 rounded-lg font-semibold text-lg"
             >

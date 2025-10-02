@@ -105,18 +105,6 @@ function Home() {
           </div>
         </div>
 
-        {/* Company Intro */}
-        <section className="py-16 px-4">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('craftingExcellence')}</h2> {/* Translated */}
-            <p className="text-xl text-gray-300 leading-relaxed">
-              At Hirpaa Furniture, we blend traditional craftsmanship with contemporary design to create 
-              furniture pieces that are not just functional, but tell a story. Each piece is meticulously 
-              crafted to bring luxury, comfort, and timeless elegance to your living space.
-            </p>
-          </div>
-        </section>
-
         {/* Promotional Banners */}
         <section className="py-12 px-4">
           <div className="container mx-auto max-w-6xl">
@@ -212,6 +200,12 @@ function Home() {
                 className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 font-semibold text-lg"
               >
                 {t('freeDesignConsultation')} {/* Translated */}
+              </Link>
+              <Link
+                to="/products"
+                className="bg-gradient-to-r from-yellow-800 to-yellow-600 text-black px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-yellow-500 transition duration-300 font-semibold text-lg"
+              >
+                {t('shopCollection')} {/* Translated */}
               </Link>
               <Link
                 to="/about"
