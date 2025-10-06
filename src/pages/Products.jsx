@@ -1,69 +1,89 @@
-import { useEffect, useState } from 'react' // Updated import
-import { Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import { useLocation } from 'react-router-dom'
-import { useTranslation } from "react-i18next";
-
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // ScrollToTop Component
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0) // Scroll to the top of the page
-  }, [pathname])
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [pathname]);
 
-  return null
+  return null;
 }
 
 function Products() {
-  const { t } = useTranslation() // Added for translations
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(100000)
-  const [sortOption, setSortOption] = useState('price-asc')
+  const { t } = useTranslation(); // Added for translations
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]); // To store categories
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000);
+  const [sortOption, setSortOption] = useState('price-asc');
+  const [selectedCategory, setSelectedCategory] = useState(''); // To track selected category
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true)
-      setError(null)
-      const { data, error } = await supabase.from('products').select('*')
-      if (error) {
-        setError(t('failedToLoadProducts')) // Translated
-        console.error('Fetch error:', error)
-      } else {
-        setProducts(data || [])
-      }
-      setLoading(false)
-    }
-    fetchProducts()
-  }, [])
+    const fetchProductsAndCategories = async () => {
+      setLoading(true);
+      setError(null);
+      // Fetch products along with their category_id
+      const { data: productData, error: productError } = await supabase
+        .from('products')
+        .select('id, name, price, image_url, category_id');
 
-  // Filter and sort products
+      // Fetch available categories for the dropdown
+      const { data: categoryData, error: categoryError } = await supabase
+        .from('categories')
+        .select('id, name');
+
+      if (productError) {
+        setError(t('failedToLoadProducts')); // Translated
+        console.error('Fetch error:', productError);
+      } else {
+        setProducts(productData || []);
+      }
+
+      if (categoryError) {
+        setError(t('failedToLoadCategories')); // Translated
+        console.error('Category fetch error:', categoryError);
+      } else {
+        setCategories(categoryData || []);
+      }
+
+      setLoading(false);
+    };
+
+    fetchProductsAndCategories();
+  }, []);
+
+  // Filter products based on search term, price, and selected category
   const filteredProducts = products
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((product) => product.price >= minPrice && product.price <= maxPrice)
+    .filter((product) => (selectedCategory ? product.category_id === parseInt(selectedCategory) : true));
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortOption === 'price-asc') return a.price - b.price
-    if (sortOption === 'price-desc') return b.price - a.price
-    if (sortOption === 'newest') return b.id - a.id
-    return 0
-  })
+    if (sortOption === 'price-asc') return a.price - b.price;
+    if (sortOption === 'price-desc') return b.price - a.price;
+    if (sortOption === 'newest') return b.id - a.id;
+    return 0;
+  });
 
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
       <div className="text-center">
         <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-yellow-200 text-lg">{t('loadingProducts')}</p> {/* Translated */}
+        <p className="text-yellow-200 text-lg">{t('loadingProducts')}</p>
       </div>
     </div>
-  )
+  );
 
   if (error) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
@@ -71,7 +91,7 @@ function Products() {
         <p className="text-red-400 text-xl">{error}</p>
       </div>
     </div>
-  )
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
@@ -86,32 +106,27 @@ function Products() {
               {t('luxuryCollection')}
             </span>
           </h1>
-          <p className="text-yellow-200 text-center text-lg">{t('discoverPremiumProducts')}</p> {/* Translated */}
+          <p className="text-yellow-200 text-center text-lg">{t('discoverPremiumProducts')}</p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Promotional Banners */}
+        {/* Category Filter */}
         <section className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-yellow-900 bg-opacity-30 to-yellow-800 bg-opacity-20 p-6 rounded-2xl border border-yellow-500 border-opacity-30 shadow-2xl shadow-yellow-500 shadow-opacity-10">
-              <div className="flex items-center mb-2">
-                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-black font-bold">%</span>
-                </div>
-                <h4 className="text-xl font-semibold text-yellow-300">{t('specialDiscount')}</h4> {/* Translated */}
-              </div>
-              <p className="text-yellow-100">{t('discountOffer')}</p> {/* Translated */}
-            </div>
-            <div className="bg-gradient-to-r from-amber-900 bg-opacity-30 to-amber-800 bg-opacity-20 p-6 rounded-2xl border border-amber-500 border-opacity-30 shadow-2xl shadow-amber-500 shadow-opacity-10">
-              <div className="flex items-center mb-2">
-                <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-black font-bold">🔥</span>
-                </div>
-                <h4 className="text-xl font-semibold text-amber-300">{t('clearanceSale')}</h4> {/* Translated */}
-              </div>
-              <p className="text-amber-100">{t('saleOffer')}</p> {/* Translated */}
-            </div>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-semibold text-yellow-300">{t('filterByCategory')}</h3> {/* Translated */}
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="bg-gray-900 text-white p-3 rounded-xl border border-yellow-500 bg-opacity-50"
+            >
+              <option value="">{t('allCategories')}</option> {/* Translated */}
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
         </section>
 
@@ -120,19 +135,14 @@ function Products() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Search Bar */}
             <div>
-              <label className="block text-yellow-300 mb-2 font-medium">{t('searchProducts')}</label> {/* Translated */}
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full p-3 bg-gray-900 bg-opacity-50 border border-yellow-500 border-opacity-30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 focus:border-yellow-500 transition-all duration-300"
-                  placeholder={t('searchPlaceholder')} /* Translated */
-                />
-                <div className="absolute right-3 top-3 text-yellow-400">
-                  🔍
-                </div>
-              </div>
+              <label className="block text-yellow-300 mb-2 font-medium">{t('searchProducts')}</label>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-3 bg-gray-900 bg-opacity-50 border border-yellow-500 border-opacity-30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 focus:border-yellow-500 transition-all duration-300"
+                placeholder={t('searchPlaceholder')}
+              />
             </div>
 
             {/* Price Range Filter */}
@@ -141,40 +151,36 @@ function Products() {
                 {t('priceRange')} <span className="text-yellow-400">${minPrice} - ${maxPrice}</span>
               </label>
               <div className="space-y-4">
-                <div className="relative">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100000"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
-                  />
-                </div>
-                <div className="relative">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100000"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
+                />
               </div>
             </div>
 
             {/* Sort Options */}
             <div>
-              <label className="block text-yellow-300 mb-2 font-medium">{t('sortBy')}</label> {/* Translated */}
+              <label className="block text-yellow-300 mb-2 font-medium">{t('sortBy')}</label>
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
                 className="w-full p-3 bg-gray-900 bg-opacity-50 border border-yellow-500 border-opacity-30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 focus:border-yellow-500 transition-all duration-300"
               >
-                <option value="price-asc" className="bg-gray-900">{t('priceLowToHigh')}</option> {/* Translated */}
-                <option value="price-desc" className="bg-gray-900">{t('priceHighToLow')}</option> {/* Translated */}
-                <option value="newest" className="bg-gray-900">{t('newestFirst')}</option> {/* Translated */}
+                <option value="price-asc">{t('priceLowToHigh')}</option>
+                <option value="price-desc">{t('priceHighToLow')}</option>
+                <option value="newest">{t('newestFirst')}</option>
               </select>
             </div>
           </div>
@@ -224,6 +230,10 @@ function Products() {
                 <h4 className="text-lg font-semibold text-white mb-2 line-clamp-2 group-hover:text-yellow-300 transition-colors duration-300">
                   {product.name}
                 </h4>
+                {/* Category Label */}
+                {product.category_id && (
+                  <p className="text-sm text-yellow-300">{t('category')}: {categories.find(cat => cat.id === product.category_id)?.name}</p> 
+                )}
                 
                 <Link
                   to={`/products/${product.id}`}
@@ -248,45 +258,8 @@ function Products() {
           </div>
         )}
       </div>
-
-      {/* Custom CSS for range slider */}
-      <style jsx>{`
-        .slider-thumb::-webkit-slider-thumb {
-          appearance: none;
-          height: 1rem;
-          width: 1rem;
-          border-radius: 50%;
-          background: #f59e0b;
-          cursor: pointer;
-          border: 2px solid #000;
-          box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-        
-        .slider-thumb::-moz-range-thumb {
-          height: 1rem;
-          width: 1rem;
-          border-radius: 50%;
-          background: #f59e0b;
-          cursor: pointer;
-          border: 2px solid #000;
-          box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-        
-        .slider-thumb::-webkit-slider-track {
-          background: #374151;
-          height: 0.5rem;
-          border-radius: 0.5rem;
-        }
-        
-        .slider-thumb::-moz-range-track {
-          background: #374151;
-          height: 0.5rem;
-          border-radius: 0.5rem;
-          border: none;
-        }
-      `}</style>
     </div>
-  )
+  );
 }
 
-export default Products
+export default Products;

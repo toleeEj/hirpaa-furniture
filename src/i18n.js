@@ -252,6 +252,11 @@ const resources = {
       Support: "24/7 Support",
       freeReturns: "Free Returns",
       backToProductsCollection: "Back to Products Collection",
+
+
+      filterByCategory: "Filter By Category",
+      allCategories: "All Categories",
+      category: "Category",
     }
   },
 
@@ -734,6 +739,11 @@ const resources = {
       Support: "Deeggarsa 24/7",
       freeReturns: "Deebi'ii bilisaa",
       backToProductsCollection: "gara kuusaa oomishootaatti Deebiʼa",
+
+
+      filterByCategory: "gosa Omishaan filadhaa",
+      allCategories: "Gosa hundumaa",
+      category: "Gosa",
 
       // Add more Oromo translations as needed...
     }

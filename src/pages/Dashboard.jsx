@@ -23,6 +23,10 @@ function Dashboard() {
   const [showProductForm, setShowProductForm] = useState(false)
   const [orderProducts, setOrderProducts] = useState({})
 
+  const [categories, setCategories] = useState([]); // State to store categories
+  const [category, setCategory] = useState(''); // State to store selected category
+
+
   useEffect(() => {
     if (!user) {
       navigate('/login')
@@ -31,6 +35,7 @@ function Dashboard() {
       fetchOrders()
       fetchRequests()
       fetchMessages()
+      fetchCategories(); 
     }
   }, [user, navigate])
 
@@ -39,6 +44,21 @@ function Dashboard() {
     if (error) setError(t('failedToLoadProducts'))
     else setProducts(data || [])
   }
+
+
+  const fetchCategories = async () => {
+  try {
+    const { data, error } = await supabase.from('categories').select('*');
+    if (error) {
+      console.error('Error fetching categories:', error);
+    } else {
+      setCategories(data || []); // Update categories state with fetched data
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+};
+
 
   const fetchOrders = async () => {
     const { data, error } = await supabase.from('orders').select('*')
@@ -77,58 +97,75 @@ function Dashboard() {
   }
 
   const handleAddProduct = async (e) => {
-    e.preventDefault()
-    let imageUrl = null
+  e.preventDefault();
+  let imageUrl = null;
 
-    if (image) {
-      const fileName = `${Date.now()}-${image.name}`
-      const { error: uploadError, data } = await supabase.storage
-        .from('product-images')
-        .upload(`public/${fileName}`, image, {
-          cacheControl: '3600',
-          upsert: false,
-        })
-      if (uploadError) {
-        setError(uploadError.message)
-        return
-      }
-      imageUrl = `https://bsgewefyiudxqhhydsyg.supabase.co/storage/v1/object/public/product-images/public/${fileName}`
+  // Upload the image if it's selected
+  if (image) {
+    const fileName = `${Date.now()}-${image.name}`;
+    const { error: uploadError, data } = await supabase.storage
+      .from('product-images')
+      .upload(`public/${fileName}`, image, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      setError(uploadError.message);
+      return;
     }
-
-    if (editingProduct) {
-      const { error } = await supabase
-        .from('products')
-        .update({
-          name,
-          price: parseFloat(price),
-          description,
-          ...(imageUrl && { image_url: imageUrl }),
-        })
-        .eq('id', editingProduct.id)
-
-      if (error) setError(error.message)
-      else {
-        setSuccess(t('productUpdatedSuccess'))
-        setEditingProduct(null)
-        setShowProductForm(false)
-      }
-    } else {
-      const { error } = await supabase
-        .from('products')
-        .insert({ name, price: parseFloat(price), description, image_url: imageUrl })
-      if (error) setError(error.message)
-      else {
-        setSuccess(t('productAddedSuccess'))
-        setShowProductForm(false)
-      }
-    }
-
-    setName('')
-    setPrice('')
-    setDescription('')
-    setImage(null)
-    fetchProducts()
+    
+    // Construct image URL
+    imageUrl = `https://bsgewefyiudxqhhydsyg.supabase.co/storage/v1/object/public/product-images/public/${fileName}`;
   }
+
+  // Prepare product data with category
+  const productData = {
+    name,
+    price: parseFloat(price),
+    description,
+    category_id: category, // Add the selected category ID here
+    ...(imageUrl && { image_url: imageUrl }), // Add image URL if it exists
+  };
+
+  // Handle the product add/edit logic
+  if (editingProduct) {
+    // Update existing product
+    const { error } = await supabase
+      .from('products')
+      .update(productData)
+      .eq('id', editingProduct.id);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess(t('productUpdatedSuccess'));
+      setEditingProduct(null);
+      setShowProductForm(false);
+    }
+  } else {
+    // Add new product
+    const { error } = await supabase
+      .from('products')
+      .insert([productData]);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess(t('productAddedSuccess'));
+      setShowProductForm(false);
+    }
+  }
+
+  // Reset form fields after successful add/update
+  setName('');
+  setPrice('');
+  setDescription('');
+  setImage(null);
+  setCategory(''); // Reset category selection after submission
+  fetchProducts(); // Refresh the product list
+};
+
 
   const handleDeleteProduct = async (id) => {
     const { error } = await supabase.from('products').delete().eq('id', id)
@@ -194,6 +231,7 @@ function Dashboard() {
     setImage(null)
     setEditingProduct(null)
     setShowProductForm(false)
+    setCategory('');
   }
 
   // Function to handle card clicks
@@ -437,6 +475,24 @@ function Dashboard() {
                           className="w-full px-3 py-2 bg-black/50 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-black hover:file:bg-yellow-400"
                         />
                       </div>
+                      <div>
+                        <label className="block text-sm font-medium text-yellow-300 mb-2">
+                          {t('category')}
+                        </label>
+                        <select
+                          value={category}
+                          onChange={(e) => setCategory(e.target.value)}
+                          className="w-full px-3 py-2 bg-black/50 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-white placeholder-gray-400"
+                          required
+                        >
+                          <option value="">{t('selectCategory')}</option>
+                          {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                     <div className="space-y-4">
                       <div>
@@ -470,6 +526,7 @@ function Dashboard() {
                   </form>
                 </div>
               )}
+
 
               {/* Products Grid */}
               <div>
