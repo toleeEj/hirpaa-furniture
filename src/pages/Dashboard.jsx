@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../lib/authContext'
+// import { useAuth } from '../lib/authContext'
 import { supabase } from '../lib/supabase'
 import { useTranslation } from "react-i18next";
 
 function Dashboard() {
   const { t } = useTranslation()
-  const { user } = useAuth()
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [orders, setOrders] = useState([])
@@ -26,18 +25,26 @@ function Dashboard() {
   const [categories, setCategories] = useState([]); // State to store categories
   const [category, setCategory] = useState(''); // State to store selected category
 
+  const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login')
-    } else {
+    const init = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser()
+      setLoading(false)
+      if (error || !user) {
+        navigate('/login')
+        return
+      }
+      setCurrentUser(user)
       fetchProducts()
       fetchOrders()
       fetchRequests()
       fetchMessages()
       fetchCategories(); 
     }
-  }, [user, navigate])
+    init()
+  }, [navigate])
 
   const fetchProducts = async () => {
     const { data, error } = await supabase.from('products').select('*')
@@ -103,7 +110,7 @@ function Dashboard() {
   // Upload the image if it's selected
   if (image) {
     const fileName = `${Date.now()}-${image.name}`;
-    const { error: uploadError, data } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('product-images')
       .upload(`public/${fileName}`, image, {
         cacheControl: '3600',
@@ -242,7 +249,13 @@ function Dashboard() {
     }
   }
 
-  if (!user) return null
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+        <div className="text-white text-lg">Loading...</div>
+      </div>
+    )
+  }
 
   // Stats data for overview with section mapping
   const stats = [
@@ -276,13 +289,13 @@ function Dashboard() {
     },
   ]
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed': return 'bg-green-500/20 text-green-300 border-green-500/30'
-      case 'in progress': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'
-      default: return 'bg-blue-500/20 text-blue-300 border-blue-500/30'
-    }
-  }
+  // const getStatusColor = (status) => {
+  //   switch (status) {
+  //     case 'completed': return 'bg-green-500/20 text-green-300 border-green-500/30'
+  //     case 'in progress': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'
+  //     default: return 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+  //   }
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
@@ -301,7 +314,7 @@ function Dashboard() {
                   <span className="text-yellow-400">{t('admin')}</span> {t('dashboard')}
                 </h1>
                 <p className="mt-1 text-sm text-gray-300">
-                  {t('welcomeBack')} <span className="font-semibold text-yellow-400">{user.email}</span>
+                  {t('welcomeBack')} <span className="font-semibold text-yellow-400">{currentUser.email}</span>
                 </p>
               </div>
             </div>
