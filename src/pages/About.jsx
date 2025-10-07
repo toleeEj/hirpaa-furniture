@@ -53,25 +53,32 @@ function About() {
 
         {/* Meet the Owners Section */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('meetTheOwners')}</h2> {/* Translated */}
-          <p className="text-xl text-gray-300 mb-10">
-            {t('ownersVisionaries')} {/* Translated */}
-          </p>
+  <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('meetTheOwners')}</h2> {/* Translated */}
+  <p className="text-xl text-gray-300 mb-10">
+    {t('ownersVisionaries')} {/* Translated */}
+  </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {['owner1.webp', 'owner2.webp', 'owner3.jpg', 'owner4.jpg', 'owner5.webp'].map((image, index) => (
-              <div key={index} className="flex flex-col items-center space-y-4">
-                <img 
-                  src={`/images/${image}`} 
-                  alt={`Owner ${index + 1}`} 
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
-                />
-                <h3 className="text-xl font-semibold text-yellow-300">Owner {index + 1}</h3>
-                <p className="text-gray-300">{t('ownerPassion')} {index + 1}</p> {/* Translated */}
-              </div>
-            ))}
-          </div>
-        </div>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+    {[
+      { name: "test 1", passion: "Passionate about crafting custom furniture, while expertly combining traditional woodworking with modern design techniques." },
+      { name: "test 2", passion: "Driven to restore and upcycle old pieces, applying deep expertise in furniture restoration to bring new life to cherished antiques." },
+      { name: "test 3", passion: "Eager to experiment with innovative materials and tools, blending artistic vision with the technical expertise required for flawless execution." },
+      { name: "test 4", passion: "Committed to creating functional yet aesthetically pleasing pieces, with a keen understanding of design principles and ergonomics." },
+      { name: "test 5", passion: "Enthusiastic about continually improving their craft through learning and adapting, demonstrating both a passion for the art of furniture-making and mastery of the skills involved." },
+    ].map((worker, index) => (
+      <div key={index} className="flex flex-col items-center space-y-4">
+        <img 
+          src={`/images/${index + 1}.jpg`} 
+          alt={`Worker ${worker.name}`} 
+          className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
+        />
+        <h3 className="text-xl font-semibold text-yellow-300">{worker.name}</h3>
+        <p className="text-gray-300">{worker.passion}</p> {/* Display worker's passion */}
+      </div>
+    ))}
+  </div>
+</div>
+
 
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
