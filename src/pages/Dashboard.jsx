@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { useAuth } from '../lib/authContext'
 import { supabase } from '../lib/supabase'
 import { useTranslation } from "react-i18next";
 
@@ -45,6 +44,11 @@ function Dashboard() {
     }
     init()
   }, [navigate])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    navigate('/login')
+  }
 
   const fetchProducts = async () => {
     const { data, error } = await supabase.from('products').select('*')
@@ -317,6 +321,12 @@ function Dashboard() {
                   {t('welcomeBack')} <span className="font-semibold text-yellow-400">{currentUser.email}</span>
                 </p>
               </div>
+              <button
+                onClick={handleLogout}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+              >
+                {t('logout')}
+              </button>
             </div>
           </div>
         </div>
