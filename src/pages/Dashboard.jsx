@@ -594,96 +594,197 @@ function Dashboard() {
           )}
 
           {/* Orders Section */}
-          {activeSection === 'orders' && (
-            <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-6">
-                {t('manageOrders')} ({orders.length})
-              </h3>
-              <div className="bg-black/40 rounded-xl border border-yellow-500/20 overflow-hidden backdrop-blur-sm">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-yellow-500/10">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
-                          {t('customer')}
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
-                          {t('product')}
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
-                          {t('status')}
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-yellow-300 uppercase tracking-wider">
-                          {t('actions')}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-yellow-500/10">
-                      {orders.map((order) => (
-                        <tr key={order.id} className="hover:bg-yellow-500/5 transition-colors duration-200">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-white">{order.customer_name}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-yellow-300">
-                              {orderProducts[order.product_id] || `Product #${order.product_id}`}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <select
-                              value={order.status}
-                              onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                              className="text-sm bg-black/50 border border-yellow-500/30 rounded-lg px-3 py-1 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-white"
-                            >
-                              <option value="new" className="bg-black">{t('new')}</option>
-                              <option value="in progress" className="bg-black">{t('inProgress')}</option>
-                              <option value="completed" className="bg-black">{t('completed')}</option>
-                            </select>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <button
-                              onClick={() => handleDeleteOrder(order.id)}
-                              className="text-red-400 hover:text-red-300 font-medium text-sm transition-colors duration-200"
-                            >
-                              {t('delete')}
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
+{activeSection === 'orders' && (
+  <div className="p-6">
+    <h3 className="text-xl font-bold text-yellow-400 mb-8">
+      {t('manageOrders')} 
+      <span className="ml-2 text-yellow-300/90">({orders.length})</span>
+    </h3>
+
+    {/* Table Container */}
+    <div className="bg-gradient-to-br from-black/50 to-black/30 rounded-2xl border border-yellow-500/30 backdrop-blur-lg shadow-2xl overflow-hidden">
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          {/* Table Header */}
+          <thead className="bg-yellow-500/10 border-b border-yellow-500/20">
+            <tr>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Customer')}
+              </th>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Contact')}
+              </th>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Product')}
+              </th>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Special Requests')}
+              </th>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Status')}
+              </th>
+              <th className="text-left py-4 px-6 text-yellow-400 font-semibold text-sm uppercase tracking-wider">
+                {t('Actions')}
+              </th>
+            </tr>
+          </thead>
+
+          {/* Table Body */}
+          <tbody className="divide-y divide-yellow-500/10">
+            {orders.map((order) => (
+              <tr 
+                key={order.id} 
+                className="hover:bg-yellow-500/5 transition-all duration-200 group"
+              >
+                {/* Customer Name */}
+                <td className="py-4 px-6">
+                  <div className="text-yellow-300 font-semibold group-hover:text-yellow-200 transition-colors">
+                    {order.customer_name}
+                  </div>
+                </td>
+
+                {/* Contact */}
+                <td className="py-4 px-6">
+                  <div className="text-yellow-300/90 text-sm">
+                    {order.contact}
+                  </div>
+                </td>
+
+                {/* Product */}
+                <td className="py-4 px-6">
+                  <div className="text-yellow-300/90 text-sm">
+                    {orderProducts[order.product_id] || `Product #${order.product_id}`}
+                  </div>
+                </td>
+
+                {/* Special Requests with Scroll */}
+                <td className="py-4 px-6">
+                  <div className="max-w-xs max-h-20 overflow-y-auto">
+                    <div className="text-yellow-300/80 text-sm whitespace-pre-wrap break-words leading-relaxed pr-2">
+                      {order.message || (
+                        <span className="text-yellow-500/60 italic">No special requests</span>
+                      )}
+                    </div>
+                  </div>
+                </td>
+
+                {/* Status */}
+                <td className="py-4 px-6">
+                  <select
+                    value={order.status}
+                    onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                    className="text-sm bg-black/40 border border-yellow-500/30 rounded-lg px-3 py-2 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-white transition-all duration-200 appearance-none cursor-pointer min-w-32"
+                  >
+                    <option value="new" className="bg-gray-800">{t('new')}</option>
+                    <option value="in progress" className="bg-gray-800">{t('inProgress')}</option>
+                    <option value="completed" className="bg-gray-800">{t('completed')}</option>
+                  </select>
+                </td>
+
+                {/* Actions */}
+                <td className="py-4 px-6">
+                  <button
+                    onClick={() => handleDeleteOrder(order.id)}
+                    className="bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/50 text-red-400 hover:text-red-300 font-medium text-sm px-4 py-2 rounded-lg transition-all duration-200"
+                  >
+                    {t('delete')}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Empty State */}
+      {orders.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-yellow-300/60 text-lg">
+            No orders found
+          </div>
+          <div className="text-yellow-300/40 text-sm mt-2">
+            All orders will appear here
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
 
           {/* Requests Section */}
-          {activeSection === 'requests' && (
-            <div>
-              <h3 className="text-lg font-semibold text-yellow-400 mb-6">
-                {t('manageRequests')} ({requests.length})
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {requests.map((request) => (
-                  <div
-                    key={request.id}
-                    className="bg-black/40 rounded-xl border border-yellow-500/20 p-6 hover:border-yellow-500/40 transition-all duration-200 backdrop-blur-sm"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-semibold text-white">{request.customer_name}</h4>
-                      <button
-                        onClick={() => handleDeleteRequest(request.id)}
-                        className="text-red-400 hover:text-red-300 font-medium text-sm transition-colors duration-200"
-                      >
-                        {t('delete')}
-                      </button>
-                    </div>
-                    <p className="text-gray-300 text-sm">{request.message}</p>
-                  </div>
-                ))}
+{activeSection === 'requests' && (
+  <div className="p-6">
+    <h3 className="text-xl font-bold text-yellow-400 mb-8">
+      {t('manageRequests')} 
+      <span className="ml-2 text-yellow-300/90">({requests.length})</span>
+    </h3>
+
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      {requests.map((request) => (
+        <div
+          key={request.id}
+          className="bg-gradient-to-br from-black/50 to-black/30 rounded-2xl border border-yellow-500/30 p-6 backdrop-blur-lg shadow-2xl hover:shadow-yellow-500/10 hover:border-yellow-500/40 transition-all duration-300 group"
+        >
+          {/* Header with Customer Name and Delete Button */}
+          <div className="flex justify-between items-start mb-6 pb-4 border-b border-yellow-500/20">
+            <h4 className="font-bold text-yellow-300 text-lg group-hover:text-yellow-200 transition-colors truncate flex-1 mr-4">
+              {request.customer_name}
+            </h4>
+            <button
+              onClick={() => handleDeleteRequest(request.id)}
+              className="bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/50 text-red-400 hover:text-red-300 font-medium text-sm px-4 py-2 rounded-xl transition-all duration-200 whitespace-nowrap"
+            >
+              {t('delete')}
+            </button>
+          </div>
+
+          {/* Contact Info */}
+          <div className="mb-4">
+            <div className="flex items-center mb-2">
+              <span className="text-yellow-400/80 font-semibold text-sm uppercase tracking-wide">
+                {t('contact')}:
+              </span>
+            </div>
+            <div className="text-yellow-300 text-sm bg-black/20 rounded-lg px-3 py-2 border border-yellow-500/10">
+              {request.contact}
+            </div>
+          </div>
+
+          {/* Message with Scrollable Container */}
+          <div>
+            <div className="flex items-center mb-2">
+              <span className="text-yellow-400/80 font-semibold text-sm uppercase tracking-wide">
+                {t('message')}:
+              </span>
+            </div>
+            <div className="max-h-32 overflow-y-auto">
+              <div className="text-yellow-300/90 text-sm whitespace-pre-wrap break-words leading-relaxed bg-black/20 rounded-lg px-3 py-3 border border-yellow-500/10 pr-2">
+                {request.message || (
+                  <span className="text-yellow-500/60 italic">No message provided</span>
+                )}
               </div>
             </div>
-          )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Empty State */}
+    {requests.length === 0 && (
+      <div className="text-center py-16 border-2 border-dashed border-yellow-500/20 rounded-2xl bg-black/20">
+        <div className="text-yellow-300/60 text-xl font-semibold mb-2">
+          No requests yet
+        </div>
+        <div className="text-yellow-300/40 text-sm">
+          Customer requests will appear here
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
 
           {/* Messages Section */}
           {activeSection === 'messages' && (

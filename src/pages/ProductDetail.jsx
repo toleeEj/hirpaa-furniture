@@ -28,6 +28,8 @@ function ProductDetail() {
   const [showOrderForm, setShowOrderForm] = useState(false)
   const [showRequestForm, setShowRequestForm] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [contactInfo, setContactInfo] = useState(''); // Added state for contact info
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -56,6 +58,7 @@ function ProductDetail() {
       product_id: product.id,
       message,
       status: 'new',
+      contact: contactInfo,
     })
     if (error) setError(error.message)
     else {
@@ -75,6 +78,7 @@ function ProductDetail() {
     const { error } = await supabase.from('requests').insert({
       customer_name: customerName,
       message,
+      contact: contactInfo,
     })
     if (error) setError(error.message)
     else {
@@ -256,6 +260,17 @@ function ProductDetail() {
                     />
                   </div>
                   <div>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('contactInfo')}</label> {/* Translated */}
+                    <input
+                      type="text"
+                      value={contactInfo}
+                      onChange={(e) => setContactInfo(e.target.value)}
+                      className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
+                      placeholder={t('enterContactInfo')} /* Translated */
+                      required
+                    />
+                  </div>
+                  <div>
                     <label className="block text-yellow-300 font-semibold mb-2">{t('specialRequests')}</label> {/* Translated */}
                     <textarea
                       value={message}
@@ -276,7 +291,8 @@ function ProductDetail() {
               </div>
             )}
 
-            {/* Request Form */}
+
+                        {/* Request Form */}
             {showRequestForm && (
               <div className="bg-yellow-500/10 p-6 rounded-lg border border-yellow-500/20">
                 <h3 className="text-xl font-semibold text-yellow-300 mb-4">{t('customProductRequest')}</h3> {/* Translated */}
@@ -292,6 +308,20 @@ function ProductDetail() {
                       required
                     />
                   </div>
+
+                  {/* New Contact Info Input Field */}
+                  <div>
+                    <label className="block text-yellow-300 font-semibold mb-2">{t('yourContact')}</label> {/* Translated */}
+                    <input
+                      type="text"
+                      value={contactInfo}
+                      onChange={(e) => setContactInfo(e.target.value)}
+                      className="w-full p-3 bg-black/50 border border-yellow-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
+                      placeholder={t('enterContactInfo')} /* Translated */
+                      required
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-yellow-300 font-semibold mb-2">{t('requestDetails')}</label> {/* Translated */}
                     <textarea
@@ -303,6 +333,7 @@ function ProductDetail() {
                       required
                     ></textarea>
                   </div>
+
                   <button
                     type="submit"
                     disabled={isSubmitting}
@@ -313,6 +344,7 @@ function ProductDetail() {
                 </form>
               </div>
             )}
+
 
             {/* Additional Info */}
             <div className="mt-6 text-center">

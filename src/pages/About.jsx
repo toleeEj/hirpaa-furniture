@@ -53,31 +53,31 @@ function About() {
 
         {/* Meet the Owners Section */}
         <div className="text-center mb-16">
-  <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('meetTheOwners')}</h2> {/* Translated */}
-  <p className="text-xl text-gray-300 mb-10">
-    {t('ownersVisionaries')} {/* Translated */}
-  </p>
+        <h2 className="text-4xl font-bold text-yellow-400 mb-6">{t('meetTheOwners')}</h2> {/* Translated */}
+        <p className="text-xl text-gray-300 mb-10">
+          {t('ownersVisionaries')} {/* Translated */}
+        </p>
 
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-    {[
-      { name: "test 1", passion: "Passionate about crafting custom furniture, while expertly combining traditional woodworking with modern design techniques." },
-      { name: "test 2", passion: "Driven to restore and upcycle old pieces, applying deep expertise in furniture restoration to bring new life to cherished antiques." },
-      { name: "test 3", passion: "Eager to experiment with innovative materials and tools, blending artistic vision with the technical expertise required for flawless execution." },
-      { name: "test 4", passion: "Committed to creating functional yet aesthetically pleasing pieces, with a keen understanding of design principles and ergonomics." },
-      { name: "test 5", passion: "Enthusiastic about continually improving their craft through learning and adapting, demonstrating both a passion for the art of furniture-making and mastery of the skills involved." },
-    ].map((worker, index) => (
-      <div key={index} className="flex flex-col items-center space-y-4">
-        <img 
-          src={`/images/${index + 1}.jpg`} 
-          alt={`Worker ${worker.name}`} 
-          className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
-        />
-        <h3 className="text-xl font-semibold text-yellow-300">{worker.name}</h3>
-        <p className="text-gray-300">{worker.passion}</p> {/* Display worker's passion */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {[
+            { name: "test 1", passion: "Passionate about crafting custom furniture, while expertly combining traditional woodworking with modern design techniques." },
+            { name: "test 2", passion: "Driven to restore and upcycle old pieces, applying deep expertise in furniture restoration to bring new life to cherished antiques." },
+            { name: "test 3", passion: "Eager to experiment with innovative materials and tools, blending artistic vision with the technical expertise required for flawless execution." },
+            { name: "test 4", passion: "Committed to creating functional yet aesthetically pleasing pieces, with a keen understanding of design principles and ergonomics." },
+            { name: "test 5", passion: "Enthusiastic about continually improving their craft through learning and adapting, demonstrating both a passion for the art of furniture-making and mastery of the skills involved." },
+          ].map((worker, index) => (
+            <div key={index} className="flex flex-col items-center space-y-4">
+              <img 
+                src={`/images/${index + 1}.jpg`} 
+                alt={`Worker ${worker.name}`} 
+                className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-yellow-400" 
+              />
+              <h3 className="text-xl font-semibold text-yellow-300">{worker.name}</h3>
+              <p className="text-gray-300">{worker.passion}</p> {/* Display worker's passion */}
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
 
 
         {/* Stats Section */}
@@ -97,14 +97,17 @@ function About() {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
-          {/* Our Story */}
-          <div>
+          {/* Our Story Section */}
+          <div className="max-w-3xl mx-auto px-6 py-8 bg-gray-900 rounded-lg">
+            {/* Section Heading */}
             <div className="mb-8">
               <span className="text-yellow-400 font-semibold text-lg">{t('ourJourney')}</span> {/* Translated */}
               <h2 className="text-4xl font-bold mt-2 text-white">{t('theHirpaaStory')}</h2> {/* Translated */}
             </div>
             
+            {/* Story Content */}
             <div className="space-y-6">
+              {/* Founding Information */}
               <p className="text-gray-300 text-lg leading-relaxed">
                 {t('foundedIn2012')} {/* Translated */}
               </p>
@@ -113,6 +116,7 @@ function About() {
                 {t('craftedByArtisans')} {/* Translated */}
               </p>
 
+              {/* Highlighted Quote from Founder */}
               <div className="bg-yellow-500/10 p-6 rounded-lg border-l-4 border-yellow-400">
                 <p className="text-yellow-200 italic text-lg">
                   {t('furnitureInspires')} {/* Translated */}
@@ -121,6 +125,7 @@ function About() {
               </div>
             </div>
           </div>
+
 
           {/* Mission & Values */}
           <div className="space-y-8">
