@@ -139,14 +139,7 @@ function ProductDetail() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6">
-          <Link to="/" className="text-yellow-400 hover:text-yellow-300">{t('home')}</Link>
-          <span className="text-gray-400 mx-2">/</span>
-          <Link to="/products" className="text-yellow-400 hover:text-yellow-300">{t('products')}</Link>
-          <span className="text-gray-400 mx-2">/</span>
-          <span className="text-gray-300">{product.name}</span>
-        </nav>
+       
 
         {/* Success/Error Messages */}
         {success && (
