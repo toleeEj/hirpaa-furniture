@@ -89,7 +89,7 @@ function Contact() {
                   <span className="text-2xl text-yellow-400 mt-1">📍</span>
                   <div>
                     <h3 className="text-lg font-semibold text-yellow-300">{t('visitShowroom')}</h3> {/* Translated */}
-                    <p className="text-gray-300">123 Furniture Street<br />Design District, City 10001</p>
+                    <p className="text-gray-300">Ayartena<br />Addis ababa, City 1000</p>
                   </div>
                 </div>
 
@@ -97,7 +97,7 @@ function Contact() {
                   <span className="text-2xl text-yellow-400 mt-1">📞</span>
                   <div>
                     <h3 className="text-lg font-semibold text-yellow-300">{t('callUs')}</h3> {/* Translated */}
-                    <p className="text-gray-300">+1 (234) 567-890<br />Mon-Fri: 9AM-6PM</p>
+                    <p className="text-gray-300">+251 567-890-12<br />Mon-Fri: 9AM-6PM</p>
                   </div>
                 </div>
 
@@ -105,7 +105,7 @@ function Contact() {
                   <span className="text-2xl text-yellow-400 mt-1">📧</span>
                   <div>
                     <h3 className="text-lg font-semibold text-yellow-300">{t('emailUs')}</h3> {/* Translated */}
-                    <p className="text-gray-300">info@hirpaafurniture.com<br />{t('respondWithin24h')}</p> {/* Translated */}
+                    <p className="text-gray-300">Hirphaa323@gmail.com<br />{t('respondWithin24h')}</p> {/* Translated */}
                   </div>
                 </div>
 

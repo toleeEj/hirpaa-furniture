@@ -60,11 +60,11 @@ function About() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {[
-            { name: "test 1", passion: "Passionate about crafting custom furniture, while expertly combining traditional woodworking with modern design techniques." },
-            { name: "test 2", passion: "Driven to restore and upcycle old pieces, applying deep expertise in furniture restoration to bring new life to cherished antiques." },
-            { name: "test 3", passion: "Eager to experiment with innovative materials and tools, blending artistic vision with the technical expertise required for flawless execution." },
-            { name: "test 4", passion: "Committed to creating functional yet aesthetically pleasing pieces, with a keen understanding of design principles and ergonomics." },
-            { name: "test 5", passion: "Enthusiastic about continually improving their craft through learning and adapting, demonstrating both a passion for the art of furniture-making and mastery of the skills involved." },
+            { name: "Hirphaa", passion: "Passionate about crafting custom furniture, while expertly combining traditional woodworking with modern design techniques." },
+            { name: "gammachuu", passion: "Driven to restore and upcycle old pieces, applying deep expertise in furniture restoration to bring new life to cherished antiques." },
+            { name: "Tolasaa", passion: "Eager to experiment with innovative materials and tools, blending artistic vision with the technical expertise required for flawless execution." },
+            { name: "Galataa", passion: "Committed to creating functional yet aesthetically pleasing pieces, with a keen understanding of design principles and ergonomics." },
+            { name: "Ganamoo", passion: "Enthusiastic about continually improving their craft through learning and adapting, demonstrating both a passion for the art of furniture-making and mastery of the skills involved." },
           ].map((worker, index) => (
             <div key={index} className="flex flex-col items-center space-y-4">
               <img 
